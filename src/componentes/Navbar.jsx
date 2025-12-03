@@ -1,46 +1,55 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { usarCarrito } from "../contextos/ContexCarrito";
+import { FaShoppingCart, FaUser } from "react-icons/fa";
 
 export default function Navbar({ autenticado, setAutenticado }) {
   const { itemsCarrito } = usarCarrito();
-  const navigate = useNavigate();
-  const cantidad = itemsCarrito.reduce((s, i) => s + i.cantidad, 0);
+  const totalItems = itemsCarrito.reduce((acc, item) => acc + item.cantidad, 0);
 
-  const manejarAuth = () => {
-    setAutenticado((prev) => {
-      const nuevo = !prev;
-      if (!nuevo) navigate("/");
-      return nuevo;
-    });
-  };
-  
   return (
     <header>
       <div className="head-cont">
-        <img 
-  src="/img/logoY.png" 
-  alt="logo" 
-  width="60" 
-  onError={(e)=>e.target.style.display='none'} 
-/>
+        <img src="/logoY.png" alt="YUME Logo" />
+
         <h1>YUME</h1>
+
         <div className="carrito-container">
           <Link to="/carrito" className="carrito">
-            🛒 <span className="carrito-contador">{cantidad}</span>
+            <FaShoppingCart />
+            {totalItems > 0 && (
+              <span className="carrito-contador">{totalItems}</span>
+            )}
           </Link>
         </div>
       </div>
+
       <nav>
         <ul>
-          <li><Link to="/">Inicio</Link></li>
-          <li><Link to="/productos">Productos</Link></li>
-          <li><Link to="/pago">Pago</Link></li>
           <li>
-            <button onClick={manejarAuth}>
-              {autenticado ? "Cerrar sesión" : "Iniciar sesión"}
-            </button>
+            <NavLink to="/">Inicio</NavLink>
           </li>
+          <li>
+            <NavLink to="/productos">Productos</NavLink>
+          </li>
+
+          {autenticado ? (
+            <>
+              <li>
+                <NavLink to="/pago">Pago</NavLink>
+              </li>
+              <li>
+                <button onClick={() => setAutenticado(false)}>Cerrar sesión</button>
+              </li>
+            </>
+          ) : (
+            <li>
+              <NavLink to="/login">
+                <FaUser style={{ marginRight: "6px" }} />
+                Iniciar sesión
+              </NavLink>
+            </li>
+          )}
         </ul>
       </nav>
     </header>

@@ -9,38 +9,49 @@ import Pago from "./paginas/Pago";
 import NoEncontrado from "./paginas/NoEncontrado";
 import RouteP from "./componentes/RouteP";
 
+import { ToastContainer } from "react-toastify"; 
+import "react-toastify/dist/ReactToastify.css";
+
 export default function App() {
   const [autenticado, setAutenticado] = useState(false);
 
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <Estructura
-            autenticado={autenticado}
-            setAutenticado={setAutenticado}
-          />
-        }
-      >
-        <Route index element={<Home />} />
-        <Route path="productos" element={<Productos />} />
-        <Route path="producto/:id" element={<DetalleProducto />} />
-        <Route path="carrito" element={<Carrito />} />
-        
-        
-      
+    <>
+      <Routes>
         <Route
-          path="pago"
+          path="/"
           element={
-            <RouteP autenticado={autenticado}>
-              <Pago />
-            </RouteP>
+            <Estructura
+              autenticado={autenticado}
+              setAutenticado={setAutenticado}
+            />
           }
-        />
-        
-        <Route path="*" element={<NoEncontrado />} />
-      </Route>
-    </Routes>
+        >
+          <Route index element={<Home />} />
+          <Route path="productos" element={<Productos />} />
+          <Route path="producto/:id" element={<DetalleProducto />} />
+          <Route path="carrito" element={<Carrito />} />
+
+          <Route
+            path="pago"
+            element={
+              <RouteP autenticado={autenticado}>
+                <Pago />
+              </RouteP>
+            }
+          />
+
+          <Route path="*" element={<NoEncontrado />} />
+        </Route>
+      </Routes>
+
+    
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        pauseOnHover={false}
+        theme="light"
+      />
+    </>
   );
 }
