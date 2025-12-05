@@ -4,15 +4,26 @@ import { usarCarrito } from "../contextos/ContexCarrito";
 import { FaShoppingCart, FaUser, FaBars, FaTimes } from "react-icons/fa";
 
 export default function Navbar({ autenticado, setAutenticado }) {
-  const { itemsCarrito } = usarCarrito();
-  const totalItems = itemsCarrito.reduce((acc, item) => acc + item.cantidad, 0);
+  const { itemsCarrito, vaciarCarrito } = usarCarrito();
+
+  const totalItems = itemsCarrito.reduce(
+    (acc, item) => acc + item.cantidad,
+    0
+  );
 
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
 
   const cerrarSesion = () => {
-    localStorage.removeItem("yume_usuario");
+   
+    localStorage.setItem("yume_sesion", "false"); 
+
+    
+    vaciarCarrito();
+
     setAutenticado(false);
+
+ 
     navigate("/");
   };
 
@@ -43,7 +54,9 @@ export default function Navbar({ autenticado, setAutenticado }) {
       <nav className={menuOpen ? "nav-open" : ""}>
         <ul>
           <li>
-            <NavLink to="/" onClick={() => setMenuOpen(false)}>Inicio</NavLink>
+            <NavLink to="/" onClick={() => setMenuOpen(false)}>
+              Inicio
+            </NavLink>
           </li>
 
           <li>
@@ -93,3 +106,4 @@ export default function Navbar({ autenticado, setAutenticado }) {
     </header>
   );
 }
+
