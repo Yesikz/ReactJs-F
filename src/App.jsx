@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Estructura from "./componentes/Estructura";
 import Home from "./paginas/Home";
@@ -6,14 +6,20 @@ import Productos from "./paginas/Productos";
 import DetalleProducto from "./paginas/DetalleProducto";
 import Carrito from "./paginas/Carrito";
 import Pago from "./paginas/Pago";
+import Login from "./paginas/Login";
+import Registro from "./paginas/Registro";
 import NoEncontrado from "./paginas/NoEncontrado";
 import RouteP from "./componentes/RouteP";
 
-import { ToastContainer } from "react-toastify"; 
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function App() {
-  const [autenticado, setAutenticado] = useState(false);
+
+  
+  const [autenticado, setAutenticado] = useState(() => {
+    return !!localStorage.getItem("yume_usuario");
+  });
 
   return (
     <>
@@ -41,17 +47,21 @@ export default function App() {
             }
           />
 
+          <Route
+            path="login"
+            element={<Login setAutenticado={setAutenticado} />}
+          />
+
+          <Route
+            path="registro"
+            element={<Registro setAutenticado={setAutenticado} />}
+          />
+
           <Route path="*" element={<NoEncontrado />} />
         </Route>
       </Routes>
 
-    
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        pauseOnHover={false}
-        theme="light"
-      />
+      <ToastContainer position="top-right" autoClose={2000} />
     </>
   );
 }
