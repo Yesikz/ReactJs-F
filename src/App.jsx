@@ -16,10 +16,13 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function App() {
 
-  
   const [autenticado, setAutenticado] = useState(() => {
-    return !!localStorage.getItem("yume_usuario");
+    return localStorage.getItem("yume_sesion") === "true";
   });
+
+  useEffect(() => {
+    localStorage.setItem("yume_sesion", autenticado ? "true" : "false");
+  }, [autenticado]);
 
   return (
     <>
