@@ -11,6 +11,11 @@ import Registro from "./paginas/Registro";
 import NoEncontrado from "./paginas/NoEncontrado";
 import RouteP from "./componentes/RouteP";
 
+
+import AdminProductos from "./paginas/AdminProductos";
+import CrearProducto from "./paginas/CrearProducto";
+import EditarProducto from "./paginas/EditarProducto";
+
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -36,6 +41,7 @@ export default function App() {
             />
           }
         >
+          
           <Route index element={<Home />} />
           <Route path="productos" element={<Productos />} />
           <Route path="producto/:id" element={<DetalleProducto />} />
@@ -60,6 +66,11 @@ export default function App() {
             element={<Registro setAutenticado={setAutenticado} />}
           />
 
+          <Route path="admin-productos" element={<AdminProductos />} />
+          <Route path="crear-producto" element={<CrearProducto />} />
+          <Route path="editar-producto/:id" element={<EditarProducto />} />
+
+         
           <Route path="*" element={<NoEncontrado />} />
         </Route>
       </Routes>

@@ -15,23 +15,18 @@ export default function Navbar({ autenticado, setAutenticado }) {
   const navigate = useNavigate();
 
   const cerrarSesion = () => {
-   
-    localStorage.setItem("yume_sesion", "false"); 
-
-    
+    localStorage.setItem("yume_sesion", "false");
     vaciarCarrito();
-
     setAutenticado(false);
-
- 
     navigate("/");
   };
+
+  const usuario = JSON.parse(localStorage.getItem("yume_usuario"));
 
   return (
     <header>
       <div className="head-cont">
         <img src="/logoY.png" alt="YUME Logo" />
-
         <h1>YUME</h1>
 
         <button
@@ -64,6 +59,14 @@ export default function Navbar({ autenticado, setAutenticado }) {
               Productos
             </NavLink>
           </li>
+
+          {autenticado && usuario?.esAdmin && (
+            <li>
+              <NavLink to="/admin-productos" onClick={() => setMenuOpen(false)}>
+                Admin
+              </NavLink>
+            </li>
+          )}
 
           {autenticado ? (
             <>
@@ -106,4 +109,3 @@ export default function Navbar({ autenticado, setAutenticado }) {
     </header>
   );
 }
-

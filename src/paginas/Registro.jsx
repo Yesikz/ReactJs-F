@@ -35,16 +35,19 @@ export default function Registro({ setAutenticado }) {
       return;
     }
 
+    const esAdmin = usuarioExistente ? false : true;
+
     const usuario = {
       nombre: form.nombre,
       email: form.email,
       password: form.password,
+      esAdmin: esAdmin,
     };
 
     localStorage.setItem("yume_usuario", JSON.stringify(usuario));
 
     setAutenticado(true);
-    toast.success("Registro exitoso");
+    toast.success(`Registro exitoso${esAdmin ? " (Admin)" : ""}`);
     navigate("/");
   };
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -19,12 +19,19 @@ export default function Login({ setAutenticado }) {
       return;
     }
 
+    if (!form.email.includes("@") || !form.email.includes(".com")) {
+      toast.error("El email debe tener formato válido (@ y .com)");
+      return;
+    }
+
     if (
       form.email === usuarioGuardado.email &&
       form.password === usuarioGuardado.password
     ) {
       setAutenticado(true);
-      toast.success("Inicio de sesión exitoso");
+      toast.success(
+        `Inicio de sesión exitoso${usuarioGuardado.esAdmin ? " (Admin)" : ""}`
+      );
       navigate("/");
     } else {
       toast.error("Email o contraseña incorrectos");
@@ -36,10 +43,20 @@ export default function Login({ setAutenticado }) {
       <h2>Iniciar Sesión</h2>
       <form onSubmit={manejarSubmit}>
         <label>Email</label>
-        <input type="email" name="email" onChange={manejarCambio} required />
+        <input
+          type="email"
+          name="email"
+          onChange={manejarCambio}
+          required
+        />
 
         <label>Contraseña</label>
-        <input type="password" name="password" onChange={manejarCambio} required />
+        <input
+          type="password"
+          name="password"
+          onChange={manejarCambio}
+          required
+        />
 
         <button type="submit">Iniciar Sesión</button>
       </form>
